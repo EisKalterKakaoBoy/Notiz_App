@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS note(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    category_id INTEGER,
+    title VARCHAR(30) NOT NULL,
+    body TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (category_id) REFERENCES users (id)
+);
+CREATE TABLE IF NOT EXISTS category(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    title VARCHAR(30),
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);

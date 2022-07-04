@@ -1,20 +1,17 @@
 import os
+from . import db
 import sqlite3
 from flask import Flask, render_template, current_app, g
 import flask_login
 import click
 
-def get_db():
-    if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row
-
-    return g.db
+def create_app():
+    app = ...
+    # existing code omitted
 
 
+
+    return app
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -22,8 +19,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-    login_manager = flask_login.LoginManager()
-    login_manager.init_app(app)
+    db.init_app(app)
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
@@ -37,9 +33,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
     @app.route('/')
     def hello():
-        return render_template()
+        return render_template("index.html")
+
 
     return app
